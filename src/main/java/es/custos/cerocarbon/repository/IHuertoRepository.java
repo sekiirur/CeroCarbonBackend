@@ -10,8 +10,4 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface IHuertoRepository extends JpaRepository<Huerto, Integer> {
-
-    //List<Huerto> findByAlquilado(Boolean alquilado);
-
-
 }

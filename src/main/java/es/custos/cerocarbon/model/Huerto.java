@@ -14,7 +14,7 @@ public class Huerto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name="nombre")
+    @Column(name="nombre", nullable = false)
     private String nombre;
     @Column(name="alquilado")
     private Boolean alquilado;

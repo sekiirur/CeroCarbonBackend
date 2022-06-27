@@ -5,10 +5,12 @@ import es.custos.cerocarbon.service.DTO.HuertoDTO;
 import es.custos.cerocarbon.service.IHuertoService;
 import es.custos.cerocarbon.service.Mapper.ModelMapperUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import es.custos.cerocarbon.repository.IHuertoRepository;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,13 @@ public class HuertoService implements IHuertoService {
     }
 
     @Override
+    public HuertoDTO alquilar(Integer id) {
+        Huerto huertoAlquiler = ModelMapperUtils.map(getHuertobyId(id),Huerto.class);
+
+        return null;
+    }
+
+    @Override
     public HuertoDTO getHuertobyId(Integer id) {
         Optional<Huerto> huertoOptional = iHuertoRepository.findById(id);
         if(huertoOptional.isPresent()){
@@ -51,10 +60,25 @@ public class HuertoService implements IHuertoService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public boolean delete(Integer id) {
         Optional<Huerto> huerto = iHuertoRepository.findById(id);
         if(huerto.isPresent()) {
             iHuertoRepository.delete(huerto.get());
+            return true;
+        }else{
+            return false;
         }
     }
+
+    @Override
+    public Page<HuertoDTO> huertoPaginado(Pageable pageable) {
+        Page<Huerto> paginaHuertos = iHuertoRepository.findAll((org.springframework.data.domain.Pageable) pageable);
+        Page<HuertoDTO> paginaHuertoDTO = paginaHuertos.map(huerto -> ModelMapperUtils.map(huerto,HuertoDTO.class));
+
+        return paginaHuertoDTO;
+    }
+
+
+
+
 }
